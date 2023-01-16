@@ -1,13 +1,15 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import Leaguerank
+
+import pandas as pd
 
 class leaguerankBaseView(View):
     model = Leaguerank
@@ -32,3 +34,27 @@ class leaguerankUpdateView(leaguerankBaseView, UpdateView):
 
 class leaguerankDeleteView(leaguerankBaseView, DeleteView):
     """View to delete a leaguerank"""
+
+def upload_csv(request):
+    if "GET" == request.method:
+        return render(request, "myapp/upload_csv.html", data)
+    elif "POST"== request.method:
+        print('csv posted')
+        print(request.FILES)
+        csv_file = request.FILES['myfile']
+        #print(csv_file)
+
+        csv_payload = csv_file.read().decode("utf-8")
+        df = pd.read_csv(csv_payload,sep=',',delim_whitespace=True)
+        print(df)
+
+        # lines = csv_payload.split("\n")
+        # for line in lines:
+        #     fields = line.split(",")
+        #     data_dict = {}
+		# 	data_dict["name"] = fields[0]
+		# 	data_dict["points"] = fields[1]
+
+
+
+        return HttpResponseRedirect(reverse("leaguerank:all"))
