@@ -23,15 +23,18 @@
                 </tr>
             </thead>
             <tbody>
-
+                
                 {% for leaguerank in leaguerank_list %}
                 <tr>
                     {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
                     <td class="ml-5"><a href="{% url 'leaguerank:leaguerank_detail' leaguerank.id %}">{{leaguerank.name}}</a></td>
+
                     <td class="text-center">{{leaguerank.points}}</td>
                     <td class="text-center">{{leaguerank.ranking}}</td>
                     <td><a href="{% url 'leaguerank:leaguerank_update' leaguerank.id %} ">Update</a></td>
                     <td><a href="{% url 'leaguerank:leaguerank_delete' leaguerank.id %}">Delete</a></td>
+
+
                 </tr>
             {% endfor %}
 

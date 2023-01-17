@@ -41,20 +41,21 @@ def upload_csv(request):
     #conn =
     BASE_DIR = Path(__file__).resolve().parent.parent
     db = BASE_DIR /'db.sqlite3'
+    dbName = BASE_DIR /'db.sqlite3'
+
     conn = sqlite3.connect(db)
+
     if "GET" == request.method:
         return render(request, "myapp/upload_csv.html", data)
     elif "POST"== request.method:
         print('csv posted')
-        print(request.FILES)
+        #print(request.FILES)
         csv_file = request.FILES['myfile']
         #print(csv_file)
-
-        #csv_payload = csv_file.read().decode("utf-8")
-        #df = pd.read_csv(csv_payload,sep=',',delim_whitespace=True)
         df = pd.read_csv(csv_file, header=None)
         #print(df)
         matchResult = []
+        db_id = 0
 
         #print(df.shape)
         for rows in df:
@@ -62,15 +63,18 @@ def upload_csv(request):
             print(df.loc[rows])
             print('team1 score ->', df.loc[rows][3])
             if(df.iloc[rows][3] > df.iloc[rows][1]):
-                matchResult.append({"team": df.iloc[rows][2], "points":  df.iloc[rows][3] })
+                matchResult.append({"id": db_id, "name": df.iloc[rows][2], "points":  df.iloc[rows][3] , "ranking":rows })
             else:
-                matchResult.append({"team": df.iloc[rows][0], "points":  df.iloc[rows][1] })
-        print(matchResult)
+                matchResult.append({"id": db_id,"name": df.iloc[rows][0], "points":  df.iloc[rows][1], "ranking":rows })
+            db_id = db_id + 1
+        #print(matchResult)
 
         df2 = pd.DataFrame(matchResult)
-        print(df2)
+        df2 = df2.sort_values(by='points',ascending=False )
+        df2['ranking'] = range( len(df2) -1 , -1,-1)
+        #print(df2)
 
-        df.to_sql('products', conn, if_exists='replace', index = False)
+        df2.to_sql('leaguerank_leaguerank', conn, if_exists='replace', index = False)
 
 
 
