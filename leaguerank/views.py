@@ -71,7 +71,8 @@ def upload_csv(request):
 
         df2 = pd.DataFrame(matchResult)
         df2 = df2.sort_values(by='points',ascending=False )
-        df2['ranking'] = range( len(df2) -1 , -1,-1)
+        #df2['ranking'] = range( len(df2) -1 , -1,-1)
+        df2['ranking'] = range( 1 ,  len(df2) +1  ,1)
         #print(df2)
 
         df2.to_sql('leaguerank_leaguerank', conn, if_exists='replace', index = False)
