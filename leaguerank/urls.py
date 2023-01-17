@@ -9,4 +9,7 @@ urlpatterns = [
     path('leaguerank/create/', views.leaguerankCreateView.as_view(), name='leaguerank_create'),
     path('leaguerank/<int:pk>/update/', views.leaguerankUpdateView.as_view(), name='leaguerank_update'),
     path('leaguerank/<int:pk>/delete/', views.leaguerankDeleteView.as_view(), name='leaguerank_delete'),
+
+
+    path('leaguerank/leaguerank_upload_csv', views.upload_csv, name='leaguerank_upload_csv'),
 ]

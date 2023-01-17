@@ -23,27 +23,39 @@
                 </tr>
             </thead>
             <tbody>
-
+                
                 {% for leaguerank in leaguerank_list %}
                 <tr>
                     {% comment %} <th scope="row">{{forloop.counter}}</th> {% endcomment %}
                     <td class="ml-5"><a href="{% url 'leaguerank:leaguerank_detail' leaguerank.id %}">{{leaguerank.name}}</a></td>
+
                     <td class="text-center">{{leaguerank.points}}</td>
                     <td class="text-center">{{leaguerank.ranking}}</td>
                     <td><a href="{% url 'leaguerank:leaguerank_update' leaguerank.id %} ">Update</a></td>
                     <td><a href="{% url 'leaguerank:leaguerank_delete' leaguerank.id %}">Delete</a></td>
+
+
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
+
+          <form method="post" action="{% url 'leaguerank:leaguerank_upload_csv' %} " enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile">
+            <button type="submit" class="d-block btn btn-primary btn-lg my-3" >Upload from csv</button>
+          </form>
+
             <div class="d-flex justify-content-flex-start">
                 <a href="{% url 'leaguerank:leaguerank_create' %}" class="d-block btn btn-primary btn-lg my-5">Add new team</a>
             </div>
+            <!--
             <div class="d-flex justify-content-flex-end">
               <a href="{% url 'leaguerank:leaguerank_create' %}" class="d-block btn btn-primary btn-lg my-5">csv batch upload</a>
             </div>
+            -->
         </div>
     </div>
 
