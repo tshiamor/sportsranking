@@ -13,11 +13,6 @@ import os
 from pathlib import Path
 import configparser
 
-# env = os.environ.copy()
-# for k, v in env.items():
-#     if '%' in v:
-#         env[k] = v.replace('%', '%%')
-
 parser = configparser.ConfigParser()
 parser.read('config.ini')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
